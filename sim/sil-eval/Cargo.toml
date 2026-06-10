@@ -1,0 +1,19 @@
+[package]
+name = "sil-eval"
+version = "0.1.0"
+edition = "2021"
+description = "Rigorous evaluation: adaptive guard vs CBF/Simplex/static across 6 environments, N seeds, 95% CIs"
+license = "MIT"
+
+[[bin]]
+name = "sil-eval"
+path = "src/main.rs"
+
+[dependencies]
+safety-memory = { path = "../../components/safety-memory" }
+clearance-guard = { path = "../../components/clearance-guard" }
+neural-safety = { path = "../../components/neural-safety" }
+libm = "0.2"
+
+[profile.release]
+opt-level = 3

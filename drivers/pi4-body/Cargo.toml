@@ -1,0 +1,19 @@
+[package]
+name = "pi4-body"
+version = "0.1.0"
+edition = "2021"
+description = "RealBody: implements hal::RobotBody on Pi4 — MPU-6050 IMU via I2C (sense) + TB6612 motors via PWM/GPIO (actuate)"
+license = "MIT"
+
+[lib]
+name = "pi4_body"
+path = "src/lib.rs"
+
+[dependencies]
+hal = { path = "../../components/hal" }
+pi4-hal = { path = "../pi4-hal" }
+imu-filter = { path = "../../components/imu-filter" }
+libm = "0.2"
+
+[profile.release]
+opt-level = 3

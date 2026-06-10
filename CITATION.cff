@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+title: "Cognitive Robot OS — Verification-Preserving Adaptive Safety Governor"
+message: "If you use this software or its results, please cite it as below."
+type: software
+authors:
+  - family-names: "Yousef"
+    given-names: "Ayman Kazem"
+    # orcid: "https://orcid.org/REPLACE-BEFORE-PUBLISHING"
+abstract: >-
+  A model-agnostic, formally-bounded safety-governance architecture for untrusted learned
+  policies. A small, machine-checked Guard holds final authority over the actuators and keeps any
+  untrusted policy inside a proven safety envelope that adapts from an incident memory
+  (tighten-only, with optional bounded relaxation) and enforces a clearance braking barrier —
+  without re-verifying the seL4 microkernel. Validated in software-in-the-loop simulation and on
+  seL4/QEMU; physical-hardware validation is the remaining gap.
+keywords:
+  - safety-critical AI
+  - formal methods
+  - seL4
+  - control barrier functions
+  - reinforcement learning
+  - runtime assurance
+  - reproducibility
+version: "0.1.0"
+date-released: "2026-06-11"
+repository-code: "__REPO_URL__"
+license: MIT

@@ -1,0 +1,17 @@
+[package]
+name = "sil-clearance"
+version = "0.1.0"
+edition = "2021"
+description = "Proves the clearance guard keeps a BAD brain (zero obstacle awareness) safe — safety from the OS, not the policy"
+license = "MIT"
+
+[[bin]]
+name = "sil-clearance"
+path = "src/main.rs"
+
+[dependencies]
+clearance-guard = { path = "../../components/clearance-guard" }
+libm = "0.2"
+
+[profile.release]
+opt-level = 3

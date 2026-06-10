@@ -1,0 +1,21 @@
+[package]
+name = "ood-detector"
+version = "0.1.0"
+edition = "2021"
+description = "Mahalanobis out-of-distribution detector: tighten-only safety gate (when in doubt, tighten) — no_std, deterministic, seL4-ready"
+license = "MIT"
+
+[lib]
+name = "ood_detector"
+path = "src/lib.rs"
+
+[dev-dependencies]
+proptest = "1"
+
+# `cfg(kani)` is active only under `cargo kani`; declared here so static analysis accepts it (-D warnings).
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(kani)'] }
+
+[profile.release]
+opt-level = 3
+lto = true

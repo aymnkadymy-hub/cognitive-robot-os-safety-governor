@@ -1,0 +1,7 @@
+[bench] one full guard decision (learned bound + incident memory + clearance barrier + clamp)
+[bench] N=2000000 on host (x86-64; same no_std code runs on seL4/aarch64)
+[bench]   mean = 38 ns   p50 = 38 ns   p99 = 47 ns   p99.9 = 58 ns   max = 6675 ns
+[bench]   jitter (p99 - p50) = 9 ns
+[bench] => the guard decision is O(1), branch-light, allocation-free (no_std), bounded compute.
+[bench] NOTE: host timing (cache/OS noise inflates max). On-target WCET on the Pi4 + seL4's
+[bench]       verified highest-priority scheduling gives the end-to-end real-time bound (future).

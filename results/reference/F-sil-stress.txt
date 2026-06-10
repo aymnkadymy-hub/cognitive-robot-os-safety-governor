@@ -1,0 +1,76 @@
+================ STRESS / BREAK BATTERY (matched across methods) ================
+cell = unsafe-events / distance ; 30 seeds ; L0-containment (speed<=vmax) holds by clamp ALWAYS.
+
+### 1) SAFETY-ENVELOPE STRESS — raise speed to the breaking point
+  vmax=1.5                       | ADAPT   0.0/  229 | CBF  14.0/  288 | Simplex  14.0/  288
+  vmax=2.5                       | ADAPT   0.0/  273 | CBF  23.0/  460 | Simplex  20.0/  400
+  vmax=4                         | ADAPT   0.0/  309 | CBF  34.0/  686 | Simplex  25.9/  512
+  vmax=6                         | ADAPT   0.0/  329 | CBF  46.0/  927 | Simplex  30.1/  608
+  vmax=9                         | ADAPT   0.0/  335 | CBF  55.0/ 1106 | Simplex  35.0/  704
+
+### 2) SENSOR NOISE + OUTLIERS (deceptive 'road clear' spikes)
+  noise=0 outlier=0              | ADAPT   0.0/  273 | CBF  23.0/  460 | Simplex  20.0/  400
+  noise=1 outlier=0              | ADAPT   4.1/  273 | CBF  30.2/  462 | Simplex  20.0/  402
+  noise=2 outlier=0.05           | ADAPT   8.9/  274 | CBF  37.5/  464 | Simplex  19.3/  386
+  noise=3 outlier=0.15           | ADAPT  11.7/  274 | CBF  42.0/  464 | Simplex  22.9/  393
+
+### 3) LATENCY INJECTION (perception delay; 1 step = 20ms)
+  delay=0ms                      | ADAPT   0.0/  273 | CBF  23.0/  460 | Simplex  20.0/  400
+  delay=60ms                     | ADAPT   0.0/  273 | CBF  23.0/  461 | Simplex  20.0/  401
+  delay=120ms                    | ADAPT   0.0/  273 | CBF  23.0/  461 | Simplex  20.0/  401
+  delay=200ms                    | ADAPT  10.7/  273 | CBF  43.6/  462 | Simplex  20.0/  402
+
+### 4) PHYSICS SHIFT (sluggish actuator vs assumed response -> tests assumption f3; vmax=5)
+  response=1                     | ADAPT   0.0/  316 | CBF  41.0/  820 | Simplex  28.0/  565
+  response=0.5                   | ADAPT   0.0/  326 | CBF  41.0/  825 | Simplex  28.6/  571
+  response=0.3                   | ADAPT  17.0/  331 | CBF  84.0/  835 | Simplex  29.0/  581
+  response=0.2                   | ADAPT  14.6/  291 | CBF  85.1/  848 | Simplex  29.0/  586
+  -> HONEST: at higher speed a sluggish actuator (f3 weakened) makes the barrier LAG -> ADAPT
+     starts to BREAK (collisions appear), like CBF/Simplex. L0-containment still holds, but
+     collision-safety DEPENDS on f3 (the physical model) — this is the real break point.
+
+### 5) ADVERSARIAL CONTROL INPUTS (policy oscillates between 0 and vmax at the boundary)
+  adversarial policy             | ADAPT   0.0/  151 | CBF  17.0/  333 | Simplex  13.0/  261
+  -> the guard is a stateless projection (clamp) -> no guard-induced instability; safety held.
+
+### 6) MEMORY CORRUPTION (poison) + confirm_safe adversarial
+  clean                          | ADAPT   0.0/  273 | CBF  23.0/  460 | Simplex  20.0/  400
+  poisoned memory                | ADAPT   0.0/   59 | CBF  23.0/  460 | Simplex  20.0/  400
+  adversarial confirm_safe       | ADAPT  23.0/  453 | CBF  23.0/  460 | Simplex  20.0/  400
+  -> poisoning => MORE conservative (tighten-only), never less safe; adv confirm_safe => bounded,
+     self-healing degradation of EXPERIENTIAL protection (envelope/barrier intact).
+
+### 7) *** PERFECT STORM *** — ALL layers fail at once
+  noise+outlier+120ms+physics+adv+corrupt+drop | ADAPT  24.4/  403 | CBF  26.4/  426 | Simplex  20.1/  349
+  (clean ADAPT baseline at vmax=3.0: 0.0/289)
+  => HONEST VERDICT: under the perfect storm the EXPERIENTIAL/reactive protection collapses for
+     ALL methods (this is expected — the physical assumption f3 is broken). The ONLY thing that
+     still holds unconditionally is L0-containment (speed <= vmax, the verified envelope) — the
+     formal invariant is robust to ALL stress combined; collision-safety is NOT (depends on f3).
+
+### 8) f3 MITIGATION — a CONSERVATIVE barrier (assumes worse braking + larger reaction)
+       moves the break point OUT (safe envelope grows), at a known liveness cost.
+  -- latency break point (ADAPT unsafe / distance) --
+    delay=120ms | nominal   0.0/ 273 | CONSERVATIVE   0.0/ 271
+    delay=200ms | nominal  10.7/ 273 | CONSERVATIVE   0.0/ 271
+    delay=300ms | nominal  14.0/ 273 | CONSERVATIVE   0.0/ 271
+  -- physics-shift break point (vmax=5; ADAPT unsafe / distance) --
+    response=0.3 | nominal  17.0/ 331 | CONSERVATIVE   0.0/ 313
+    response=0.25 | nominal  17.0/ 333 | CONSERVATIVE   0.0/ 315
+    response=0.2 | nominal  14.6/ 291 | CONSERVATIVE   0.3/ 278
+  => the conservative design TRADES liveness (shorter distance) for a LARGER safe envelope
+     -> f3 becomes 'safe if actual braking >= a_conservative', a defensible PHYSICAL bound
+     (set a_conservative from a measured worst case on hardware -> turns conditional into grounded).
+
+### 9) ADAPTIVE-ROBUST (additive, tighten-only) — barrier self-tightens after each collision
+       nominal Adaptive (optimistic) | always-CONSERVATIVE | ADAPTIVE-ROBUST (reactive)
+    clean (vmax=3)             | nominal   0.0/ 289 | CONS   0.0/ 282 | ROBUST   0.0/ 289
+    delay=200ms                | nominal  15.0/ 289 | CONS   0.0/ 283 | ROBUST   1.0/ 288
+    delay=300ms                | nominal  15.0/ 290 | CONS   0.0/ 284 | ROBUST   1.0/ 288
+    f3 response=0.3 (vmax5)    | nominal  17.0/ 331 | CONS   0.0/ 313 | ROBUST   1.0/ 326
+    f3 response=0.2 (vmax5)    | nominal  14.6/ 291 | CONS   0.3/ 278 | ROBUST   1.3/ 287
+    noise=2 outlier=.05        | nominal  12.5/ 290 | CONS   5.9/ 286 | ROBUST   7.1/ 287
+    dropout=0.30               | nominal   9.7/ 291 | CONS  10.0/ 290 | ROBUST  10.1/ 290
+    PERFECT STORM              | nominal  24.4/ 403 | CONS  24.0/ 395 | ROBUST   0.0/  31
+  => ROBUST keeps nominal liveness when clean, yet closes the f3/delay/storm gaps reactively.
+================ END ================

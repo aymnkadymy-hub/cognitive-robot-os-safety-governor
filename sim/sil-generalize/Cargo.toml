@@ -1,0 +1,16 @@
+[package]
+name = "sil-generalize"
+version = "0.1.0"
+edition = "2021"
+description = "Learns vs memorizes: egocentric danger model generalizes to MOVED obstacles; cell-lookup fails"
+license = "MIT"
+
+[[bin]]
+name = "sil-generalize"
+path = "src/main.rs"
+
+[dependencies]
+safety-model = { path = "../../components/safety-model" }
+
+[profile.release]
+opt-level = 3

@@ -1,0 +1,20 @@
+[package]
+name = "sil-cartpole"
+version = "0.1.0"
+edition = "2021"
+description = "Software-in-the-Loop: cartpole physics + the same brain/safety crates used on seL4"
+license = "MIT"
+
+[[bin]]
+name = "sil-cartpole"
+path = "src/main.rs"
+
+[dependencies]
+# Same crates that run on seL4 (SIL principle: one codebase for host and target).
+reflex-abi = { path = "../../components/reflex-abi" }
+neural-memory = { path = "../../components/memory" }
+cartpole-policy = { path = "../../components/cartpole-policy" }
+cartpole-sim = { path = "../../components/cartpole-sim" }
+
+[profile.release]
+opt-level = 3

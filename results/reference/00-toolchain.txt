@@ -1,0 +1,3 @@
+Toolchain: rustc 1.96.0 (ac68faa20 2026-05-25) (Arch Linux rust 1:1.96.0-1)
+Captured: deterministic reference outputs (fixed-seed LCG). Numbers are host-independent except timing.
+============================================================

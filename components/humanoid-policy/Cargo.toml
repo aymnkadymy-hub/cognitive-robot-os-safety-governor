@@ -1,0 +1,17 @@
+[package]
+name = "humanoid-policy"
+version = "0.1.0"
+edition = "2021"
+description = "no_std humanoid locomotion policy (PPO-trained on MuJoCo Humanoid)"
+license = "MIT"
+
+[lib]
+name = "humanoid_policy"
+path = "src/lib.rs"
+
+[dependencies]
+libm = "0.2"
+
+[profile.release]
+opt-level = 3
+lto = true

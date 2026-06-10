@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Cognitive Robot OS — unified system (Phase D0/D2): closed-loop control with three PDs.
+    body (actuation) : owns the cartpole physics, applies the approved command, publishes state.
+    cognitive (brain): state → neural memory + trained policy → proposed command.
+    guard (spinal)   : highest priority, enforces bounds + watchdog, holds final authority.
+  Loop: body → cognitive → guard → body (via shared memory + notification channels).
+-->
+<system>
+    <memory_region name="reflex" size="0x1000" />
+
+    <protection_domain name="cognitive" priority="100" stack_size="0x10_000">
+        <program_image path="microkit-memory-pd.elf" />
+        <map mr="reflex" vaddr="0x2_000_000_000" perms="rw" cached="true" setvar_vaddr="reflex_vaddr" />
+    </protection_domain>
+
+    <protection_domain name="guard" priority="254" stack_size="0x10_000">
+        <program_image path="microkit-guard-pd.elf" />
+        <map mr="reflex" vaddr="0x2_000_000_000" perms="rw" cached="true" setvar_vaddr="reflex_vaddr" />
+    </protection_domain>
+
+    <protection_domain name="actuation" priority="200" stack_size="0x10_000">
+        <program_image path="microkit-actuation-pd.elf" />
+        <map mr="reflex" vaddr="0x2_000_000_000" perms="rw" cached="true" setvar_vaddr="reflex_vaddr" />
+    </protection_domain>
+
+    <!-- body(actuation id=0) <-> cognitive(id=0) -->
+    <channel>
+        <end pd="actuation" id="0" />
+        <end pd="cognitive" id="0" />
+    </channel>
+    <!-- cognitive(id=1) <-> guard(id=0) -->
+    <channel>
+        <end pd="cognitive" id="1" />
+        <end pd="guard" id="0" />
+    </channel>
+    <!-- guard(id=1) <-> body(actuation id=1) -->
+    <channel>
+        <end pd="guard" id="1" />
+        <end pd="actuation" id="1" />
+    </channel>
+</system>

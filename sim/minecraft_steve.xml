@@ -1,0 +1,95 @@
+<!-- Blocky Minecraft-style character (Steve) for MuJoCo — walking joints + Minecraft colours.
+     Built with box geoms for a cubic appearance, with joints and actuators to learn walking via reinforcement learning. -->
+<mujoco model="minecraft_steve">
+  <compiler angle="degree" inertiafromgeom="true"/>
+  <option timestep="0.005" iterations="20" integrator="Euler"/>
+
+  <default>
+    <joint armature="0.02" damping="2" limited="true"/>
+    <geom type="box" friction="1 0.1 0.1" density="250"/>
+    <motor ctrllimited="true" ctrlrange="-1 1" gear="80"/>
+  </default>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.5 0.6 0.7" rgb2="0.1 0.15 0.25" width="256" height="256"/>
+    <texture name="grid" type="2d" builtin="checker" rgb1="0.55 0.75 0.55" rgb2="0.85 0.9 0.85" width="300" height="300"/>
+    <material name="grid" texture="grid" texrepeat="8 8" reflectance="0.1"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 4" dir="0 0 -1" diffuse="0.9 0.9 0.9"/>
+    <geom name="floor" type="plane" size="20 20 0.1" material="grid"/>
+
+    <!-- torso (cyan shirt) — free root -->
+    <body name="torso" pos="0 0 0.86">
+      <freejoint name="root"/>
+      <geom name="torso" size="0.07 0.13 0.18" pos="0 0 0" rgba="0.0 0.66 0.66 1"/>
+      <!-- head (skin) + brown hair on top -->
+      <geom name="head" size="0.10 0.10 0.10" pos="0 0 0.30" rgba="0.80 0.62 0.46 1"/>
+      <geom name="hair" size="0.105 0.105 0.03" pos="0 0 0.39" rgba="0.35 0.22 0.10 1"/>
+
+      <!-- right arm (shoulder pitch) -->
+      <body name="upper_arm_r" pos="0 0.19 0.12">
+        <joint name="shoulder_r" type="hinge" axis="0 1 0" range="-90 90"/>
+        <geom size="0.05 0.05 0.13" pos="0 0 -0.10" rgba="0.0 0.66 0.66 1"/>
+        <body name="lower_arm_r" pos="0 0 -0.24">
+          <joint name="elbow_r" type="hinge" axis="0 1 0" range="-130 0"/>
+          <geom size="0.05 0.05 0.12" pos="0 0 -0.10" rgba="0.80 0.62 0.46 1"/>
+        </body>
+      </body>
+      <!-- left arm -->
+      <body name="upper_arm_l" pos="0 -0.19 0.12">
+        <joint name="shoulder_l" type="hinge" axis="0 1 0" range="-90 90"/>
+        <geom size="0.05 0.05 0.13" pos="0 0 -0.10" rgba="0.0 0.66 0.66 1"/>
+        <body name="lower_arm_l" pos="0 0 -0.24">
+          <joint name="elbow_l" type="hinge" axis="0 1 0" range="-130 0"/>
+          <geom size="0.05 0.05 0.12" pos="0 0 -0.10" rgba="0.80 0.62 0.46 1"/>
+        </body>
+      </body>
+
+      <!-- right leg (blue trousers): hip roll+pitch, knee, ankle -->
+      <body name="thigh_r" pos="0 0.10 -0.18">
+        <joint name="hip_x_r" type="hinge" axis="1 0 0" range="-30 30"/>
+        <joint name="hip_y_r" type="hinge" axis="0 1 0" range="-90 50"/>
+        <geom size="0.06 0.06 0.17" pos="0 0 -0.15" rgba="0.27 0.27 0.55 1"/>
+        <body name="shin_r" pos="0 0 -0.32">
+          <joint name="knee_r" type="hinge" axis="0 1 0" range="0 90"/>
+          <geom size="0.05 0.05 0.16" pos="0 0 -0.14" rgba="0.27 0.27 0.55 1"/>
+          <body name="foot_r" pos="0.04 0 -0.30">
+            <joint name="ankle_r" type="hinge" axis="0 1 0" range="-50 50"/>
+            <geom size="0.13 0.07 0.03" pos="0.05 0 0" rgba="0.4 0.4 0.45 1"/>
+          </body>
+        </body>
+      </body>
+      <!-- left leg -->
+      <body name="thigh_l" pos="0 -0.10 -0.18">
+        <joint name="hip_x_l" type="hinge" axis="1 0 0" range="-30 30"/>
+        <joint name="hip_y_l" type="hinge" axis="0 1 0" range="-90 50"/>
+        <geom size="0.06 0.06 0.17" pos="0 0 -0.15" rgba="0.27 0.27 0.55 1"/>
+        <body name="shin_l" pos="0 0 -0.32">
+          <joint name="knee_l" type="hinge" axis="0 1 0" range="0 90"/>
+          <geom size="0.05 0.05 0.16" pos="0 0 -0.14" rgba="0.27 0.27 0.55 1"/>
+          <body name="foot_l" pos="0.04 0 -0.30">
+            <joint name="ankle_l" type="hinge" axis="0 1 0" range="-50 50"/>
+            <geom size="0.13 0.07 0.03" pos="0.05 0 0" rgba="0.4 0.4 0.45 1"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <motor joint="hip_y_r"/>
+    <motor joint="hip_x_r"/>
+    <motor joint="knee_r"/>
+    <motor joint="ankle_r" gear="40"/>
+    <motor joint="hip_y_l"/>
+    <motor joint="hip_x_l"/>
+    <motor joint="knee_l"/>
+    <motor joint="ankle_l" gear="40"/>
+    <motor joint="shoulder_r" gear="30"/>
+    <motor joint="shoulder_l" gear="30"/>
+    <motor joint="elbow_r" gear="18"/>
+    <motor joint="elbow_l" gear="18"/>
+  </actuator>
+</mujoco>

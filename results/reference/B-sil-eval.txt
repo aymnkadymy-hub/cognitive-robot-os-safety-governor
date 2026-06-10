@@ -1,0 +1,71 @@
+[eval] fair protocol: same seed -> same world for all methods (paired); 40 seeds/cell; 95% CI.
+[eval] metrics: UNSAFE events (lower better) | DISTANCE (liveness, higher better)
+
+=== environment: Familiar     ===
+[eval]   static-slow  | unsafe   0.0 ± 0.0 | distance    280 ±   0
+[eval]   CBF          | unsafe  42.2 ± 0.1 | distance    840 ±   3
+[eval]   Simplex      | unsafe  33.7 ± 0.4 | distance    670 ±   8
+[eval]   ADAPTIVE     | unsafe   3.0 ± 0.0 | distance    374 ±   2
+[eval]   ADAPT-warm   | unsafe   0.0 ± 0.0 | distance    389 ±   2
+[eval]   NeuralCBF    | unsafe   4.6 ± 1.2 | distance    312 ±   0
+[eval]   ShieldedRL   | unsafe   7.2 ± 1.8 | distance    496 ±   3
+[eval]   NeuralSimplx | unsafe   5.4 ± 1.9 | distance    473 ±   3
+[eval]   verdict: adaptive PARETO-DOMINATES (stable) (unsafe~slow: true, liveness>slow w/ CIs: true)
+
+=== environment: OOD          ===
+[eval]   static-slow  | unsafe   0.0 ± 0.0 | distance    280 ±   0
+[eval]   CBF          | unsafe  41.8 ± 0.7 | distance    840 ±   3
+[eval]   Simplex      | unsafe  33.5 ± 0.7 | distance    670 ±   8
+[eval]   ADAPTIVE     | unsafe   2.8 ± 0.1 | distance    398 ±   9
+[eval]   ADAPT-warm   | unsafe  13.2 ± 0.2 | distance    389 ±   2
+[eval]   NeuralCBF    | unsafe  15.6 ± 0.3 | distance    312 ±   0
+[eval]   ShieldedRL   | unsafe  24.8 ± 0.5 | distance    496 ±   3
+[eval]   NeuralSimplx | unsafe  23.8 ± 0.5 | distance    473 ±   3
+[eval]   verdict: adaptive does NOT clearly dominate (honest) (unsafe~slow: false, liveness>slow w/ CIs: true)
+
+=== environment: Noisy-sensor ===
+[eval]   static-slow  | unsafe   0.0 ± 0.0 | distance    280 ±   0
+[eval]   CBF          | unsafe  53.8 ± 0.8 | distance    846 ±   3
+[eval]   Simplex      | unsafe  33.9 ± 0.4 | distance    681 ±   8
+[eval]   ADAPTIVE     | unsafe   6.2 ± 0.7 | distance    374 ±   2
+[eval]   ADAPT-warm   | unsafe   2.7 ± 0.7 | distance    389 ±   2
+[eval]   NeuralCBF    | unsafe   4.6 ± 1.2 | distance    312 ±   0
+[eval]   ShieldedRL   | unsafe  11.9 ± 1.9 | distance    497 ±   3
+[eval]   NeuralSimplx | unsafe   9.6 ± 1.9 | distance    474 ±   3
+[eval]   verdict: adaptive does NOT clearly dominate (honest) (unsafe~slow: false, liveness>slow w/ CIs: true)
+
+=== environment: Moving-haz   ===
+[eval]   static-slow  | unsafe   0.0 ± 0.0 | distance    280 ±   0
+[eval]   CBF          | unsafe  39.3 ± 0.2 | distance    840 ±   3
+[eval]   Simplex      | unsafe  31.0 ± 0.4 | distance    670 ±   8
+[eval]   ADAPTIVE     | unsafe   6.3 ± 0.3 | distance    287 ±   2
+[eval]   ADAPT-warm   | unsafe  10.1 ± 0.3 | distance    389 ±   2
+[eval]   NeuralCBF    | unsafe   9.5 ± 0.4 | distance    312 ±   0
+[eval]   ShieldedRL   | unsafe  17.3 ± 0.6 | distance    496 ±   3
+[eval]   NeuralSimplx | unsafe  15.3 ± 0.4 | distance    473 ±   3
+[eval]   verdict: adaptive does NOT clearly dominate (honest) (unsafe~slow: false, liveness>slow w/ CIs: true)
+
+=== environment: Delay        ===
+[eval]   static-slow  | unsafe  14.0 ± 0.0 | distance    280 ±   0
+[eval]   CBF          | unsafe  42.2 ± 0.1 | distance    845 ±   3
+[eval]   Simplex      | unsafe  33.8 ± 0.4 | distance    678 ±   8
+[eval]   ADAPTIVE     | unsafe   3.0 ± 0.0 | distance    380 ±   2
+[eval]   ADAPT-warm   | unsafe   0.0 ± 0.0 | distance    394 ±   2
+[eval]   NeuralCBF    | unsafe   5.2 ± 1.1 | distance    312 ±   0
+[eval]   ShieldedRL   | unsafe   8.7 ± 1.5 | distance    502 ±   3
+[eval]   NeuralSimplx | unsafe   5.5 ± 1.9 | distance    482 ±   3
+[eval]   verdict: adaptive PARETO-DOMINATES (stable) (unsafe~slow: true, liveness>slow w/ CIs: true)
+
+=== environment: Dropout      ===
+[eval]   static-slow  | unsafe   0.0 ± 0.0 | distance    280 ±   0
+[eval]   CBF          | unsafe  82.6 ± 1.3 | distance    909 ±   2
+[eval]   Simplex      | unsafe  74.0 ± 1.2 | distance    816 ±   5
+[eval]   ADAPTIVE     | unsafe  11.9 ± 1.2 | distance    381 ±   2
+[eval]   ADAPT-warm   | unsafe   8.5 ± 1.4 | distance    395 ±   1
+[eval]   NeuralCBF    | unsafe   4.6 ± 1.2 | distance    312 ±   0
+[eval]   ShieldedRL   | unsafe  21.7 ± 2.2 | distance    512 ±   2
+[eval]   NeuralSimplx | unsafe  19.9 ± 2.2 | distance    488 ±   1
+[eval]   verdict: adaptive does NOT clearly dominate (honest) (unsafe~slow: false, liveness>slow w/ CIs: true)
+
+[eval] note: 'Moving-haz' is expected to break the LOCATION-keyed memory (honest limitation —
+[eval]       points to the egocentric/generalizing variant A7). Reported, not hidden.

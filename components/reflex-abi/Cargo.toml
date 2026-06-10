@@ -1,0 +1,17 @@
+[package]
+name = "reflex-abi"
+version = "0.1.0"
+edition = "2021"
+description = "Shared ABI + pure safety logic for the reflex-arc Guard/Cognitive PDs"
+license = "MIT"
+
+[lib]
+name = "reflex_abi"
+path = "src/lib.rs"
+
+[dev-dependencies]
+proptest = "1"
+
+# `cfg(kani)` is enabled only under `cargo kani` (formal proofs); declared here so static analysis accepts it.
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(kani)'] }

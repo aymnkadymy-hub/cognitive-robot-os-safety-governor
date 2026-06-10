@@ -1,0 +1,22 @@
+[package]
+name = "microkit-guard-pd"
+version = "0.1.0"
+edition = "2021"
+description = "seL4 Guard PD (spinal cord): highest-priority deterministic safety reflex"
+license = "MIT"
+
+[[bin]]
+name = "microkit-guard-pd"
+path = "src/main.rs"
+
+[dependencies]
+sel4-microkit = { path = "../../tools/rust-sel4/crates/sel4-microkit", default-features = false }
+sel4-shared-memory = { path = "../../tools/rust-sel4/crates/sel4-shared-memory" }
+reflex-abi = { path = "../reflex-abi" }
+safety-model = { path = "../safety-model" }
+clearance-guard = { path = "../clearance-guard" }
+ood-detector = { path = "../ood-detector" }
+
+[profile.release]
+panic = "abort"
+lto = true

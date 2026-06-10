@@ -1,0 +1,21 @@
+[package]
+name = "microkit-memory-pd"
+version = "0.1.0"
+edition = "2021"
+description = "seL4 Cognitive (brain) PD: perception-of-state -> neural memory -> trained policy"
+license = "MIT"
+
+[[bin]]
+name = "microkit-memory-pd"
+path = "src/main.rs"
+
+[dependencies]
+sel4-microkit = { path = "../../tools/rust-sel4/crates/sel4-microkit", default-features = false }
+sel4-shared-memory = { path = "../../tools/rust-sel4/crates/sel4-shared-memory" }
+neural-memory = { path = "../memory" }
+mujoco-pendulum-policy = { path = "../mujoco-pendulum-policy" }
+reflex-abi = { path = "../reflex-abi" }
+
+[profile.release]
+panic = "abort"
+lto = true

@@ -1,0 +1,18 @@
+[package]
+name = "sil-nav-guarded"
+version = "0.1.0"
+edition = "2021"
+description = "Bridge B: a LEARNED navigation policy (no_std PPO) governed by the verified clearance guard"
+license = "MIT"
+
+[[bin]]
+name = "sil-nav-guarded"
+path = "src/main.rs"
+
+[dependencies]
+nav-policy = { path = "../../components/nav-policy" }
+clearance-guard = { path = "../../components/clearance-guard" }
+libm = "0.2"
+
+[profile.release]
+opt-level = 3

@@ -1,0 +1,25 @@
+[package]
+name = "safety-memory"
+version = "0.1.0"
+edition = "2021"
+description = "Incident-driven MONOTONE-tightening safety envelope (Claim A) — no_std, seL4-ready"
+license = "MIT"
+
+[lib]
+name = "safety_memory"
+path = "src/lib.rs"
+
+[dependencies]
+libm = "0.2"
+brain-os-abi = { path = "../brain-os-abi" }
+
+[dev-dependencies]
+proptest = "1"
+
+# `cfg(kani)` is active only under `cargo kani`; declared here so static analysis accepts it (-D warnings).
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(kani)'] }
+
+[profile.release]
+opt-level = 3
+lto = true

@@ -1,0 +1,14 @@
+[package]
+name = "neural-memory"
+version = "0.1.0"
+edition = "2021"
+description = "Neural-semantic vector memory as a primary perception/memory store (no_std-ready)"
+license = "MIT"
+
+[lib]
+name = "neural_memory"
+path = "src/lib.rs"
+
+[profile.release]
+opt-level = 3
+lto = true

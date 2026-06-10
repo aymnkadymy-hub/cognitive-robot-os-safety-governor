@@ -1,0 +1,7 @@
+# Build PD for seL4/Microkit: custom target + build-std.
+[build]
+target = "/home/aymen/cognitive-robot-os/tools/rust-sel4/support/targets/aarch64-sel4-microkit.json"
+
+[unstable]
+build-std = ["core", "compiler_builtins", "alloc"]
+build-std-features = ["compiler-builtins-mem"]

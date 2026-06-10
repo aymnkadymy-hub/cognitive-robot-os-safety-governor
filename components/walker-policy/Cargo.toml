@@ -1,0 +1,17 @@
+[package]
+name = "walker-policy"
+version = "0.1.0"
+edition = "2021"
+description = "no_std locomotion policy (PPO-trained on MuJoCo Walker2d)"
+license = "MIT"
+
+[lib]
+name = "walker_policy"
+path = "src/lib.rs"
+
+[dependencies]
+libm = "0.2"
+
+[profile.release]
+opt-level = 3
+lto = true

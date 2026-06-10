@@ -1,0 +1,18 @@
+[package]
+name = "sil-adversarial"
+version = "0.1.0"
+edition = "2021"
+description = "2-D adversarial arena: random fast multi-directional moving obstacles; compares safety filters (Nominal/CBF/Simplex/FrontOnly/Ours worst-case velocity-obstacle, tighten-only)"
+license = "MIT"
+
+[[bin]]
+name = "sil-adversarial"
+path = "src/main.rs"
+
+[dependencies]
+libm = "0.2"
+reactive-evasion = { path = "../../components/reactive-evasion" }
+
+[profile.release]
+opt-level = 3
+lto = true

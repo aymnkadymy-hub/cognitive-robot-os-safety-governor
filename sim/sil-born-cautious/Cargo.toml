@@ -1,0 +1,16 @@
+[package]
+name = "sil-born-cautious"
+version = "0.1.0"
+edition = "2021"
+description = "Born cautious: harvest hazards in simulation, transfer the safety memory, avoid the accident on first real encounter"
+license = "MIT"
+
+[[bin]]
+name = "sil-born-cautious"
+path = "src/main.rs"
+
+[dependencies]
+safety-memory = { path = "../../components/safety-memory" }
+
+[profile.release]
+opt-level = 3

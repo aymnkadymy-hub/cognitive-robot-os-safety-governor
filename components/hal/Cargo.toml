@@ -1,0 +1,13 @@
+[package]
+name = "hal"
+version = "0.1.0"
+edition = "2021"
+description = "no_std robot-body abstraction (sense/actuate) — sim now, real drivers later"
+license = "MIT"
+
+[lib]
+name = "hal"
+path = "src/lib.rs"
+
+[dependencies]
+cartpole-sim = { path = "../cartpole-sim" }

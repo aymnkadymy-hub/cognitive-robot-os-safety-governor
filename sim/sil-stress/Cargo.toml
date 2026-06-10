@@ -1,0 +1,18 @@
+[package]
+name = "sil-stress"
+version = "0.1.0"
+edition = "2021"
+description = "Break/stress tests: sensor noise+outliers, latency, physics shift, boundary oscillation, confirm_safe FP/FN, catastrophic forgetting, conflicting incidents — matched across adaptive/CBF/Simplex"
+license = "MIT"
+
+[[bin]]
+name = "sil-stress"
+path = "src/main.rs"
+
+[dependencies]
+safety-memory = { path = "../../components/safety-memory" }
+clearance-guard = { path = "../../components/clearance-guard" }
+libm = "0.2"
+
+[profile.release]
+opt-level = 3

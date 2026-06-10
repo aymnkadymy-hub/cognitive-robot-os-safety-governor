@@ -1,0 +1,17 @@
+running 13 tests
+test proptests::safe_speed_zero_within_margin ... ok
+test proptests::govern_reverse_unrestricted ... ok
+test tests::monotone_increasing_with_distance ... ok
+test tests::golden_bits_safe_speed ... ok
+test proptests::braking_guarantee_never_violates ... ok
+test proptests::govern_forward_capped ... ok
+test tests::zero_speed_at_or_inside_margin ... ok
+test proptests::safe_speed_nonneg_and_capped ... ok
+test tests::govern_caps_forward_allows_reverse ... ok
+test tests::bad_brain_kept_safe_in_sim ... ok
+test tests::braking_guarantee_never_violates ... ok
+test tests::audit_no_nondeterministic_math ... ok
+test proptests::safe_speed_monotone ... ok
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+running 0 tests
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

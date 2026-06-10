@@ -1,0 +1,13 @@
+[package]
+name = "reactive-evasion"
+version = "0.1.0"
+edition = "2021"
+description = "Worst-case velocity-obstacle safe-approach bound for fast multi-directional hazards (tighten-only, machine-checked)"
+license = "MIT"
+
+[dependencies]
+libm = "0.2"
+
+# `cfg(kani)` is set only under `cargo kani`; declare it so the static check (-D warnings) accepts it.
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(kani)'] }

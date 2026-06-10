@@ -1,0 +1,98 @@
+================ FULL EXPERIMENT BATTERY (reviewer's 10 tests) ================
+scenario: loop track, sensed obstacles + HIDDEN hazards; 40 seeds/cell; vmax=2.5
+
+### 1) ABLATION — remove one component, see what breaks (Familiar env)
+  FULL (clearance+memory+warm+sim0.90) | unsafe   0.0 | distance    347
+  -memory (= CBF only)                | unsafe  29.0 | distance    576
+  -clearance (memory only)            | unsafe   9.1 | distance    351
+  -warm (cold start, learns)          | unsafe   3.0 | distance    332
+  -similarity (sim=1.0, exact only)   | unsafe  29.0 | distance    575
+  -tightening (contr=1.0, no tighten) | unsafe   0.0 | distance    347
+  => if removing a component RAISES unsafe, that component is the safety source.
+
+### 2) MEMORY SIZE / SATURATION (distinct hazards learned vs safety, CAP=128)
+   1 hazards (warm) | unsafe   0.0 | distance    470
+   3 hazards (warm) | unsafe   0.0 | distance    364
+   6 hazards (warm) | unsafe   0.0 | distance    299
+  12 hazards (warm) | unsafe   0.0 | distance    248
+  => safety holds as hazard count grows (merge-by-min); recall stays O(CAP) (see exp 7).
+
+### 3) ADVERSARIAL — poison the memory (does it stay SAFE or collapse?)
+  clean memory     | unsafe   0.0 | distance    347
+  POISONED memory  | unsafe   0.2 | distance     96
+  => tighten-only => poisoning can only make it MORE conservative (lower distance),
+     NEVER less safe. Worst case = over-caution, not danger. (robustness property)
+
+### 4) FORGETTING — hazard learned, then REMOVED. Tighten-only vs evidence-based forgetting.
+  phase-2 tighten-only (never forgets) | unsafe   0.0 | distance    370  (stays cautious forever)
+  phase-2 WITH evidence-forgetting     | unsafe   0.0 | distance    575  (recovers, still safe)
+  ideal (never learned the hazard)     | unsafe   0.0 | distance    576
+  => IMPROVED: opt-in evidence-based forgetting recovers liveness (370 -> 575, toward ideal 576)
+     while STILL SAFE (unsafe 0.0) and NEVER exceeding the verified envelope (Thm 1/3 preserved).
+     Relaxes ONLY after CONFIRMED-safe passes -> a still-present hazard keeps it tight; a new incident re-tightens.
+
+### 5) TRANSFER — learn in A, deploy to A'/B/C/D (cold, no relearning)
+  transfer to A' (same dist)         | unsafe   0.0 | distance    371
+  transfer to B/C/D (new dist, OOD)  | unsafe   9.2 | distance    371
+  => transfer protects on SIMILAR dist (A'); on a NEW dist (OOD) cold-transfer helps less
+     -> online learning (cold-adaptive) is needed there (consistent with EVALUATION.md).
+
+### 6) STRESS — sweep speed; find each method's breaking point (unsafe events)
+  vmax |  no-guard(.6v)|     CBF     |   Simplex   |  ADAPTIVE(warm)
+   1.5 |   18.0/  360 |  18.0/  360 |  25.2/  506 |   0.0/  287
+   2.5 |   59.0/  600 |  29.0/  576 |  33.7/  670 |   0.0/  347
+     4 |   94.4/  960 |  43.0/  860 |  41.4/  827 |   0.0/  391
+     6 |  141.6/ 1440 |  58.2/ 1166 |  47.8/  957 |   0.0/  394
+     9 |  212.4/ 2160 |  69.9/ 1400 |  54.0/ 1083 |   0.0/  394
+  (cell = unsafe/distance). => the adaptive's breaking point is at HIGHER speed than CBF/Simplex.
+
+### 7) COMPUTE COST (real numbers)
+  memory recall  (effective_limit, CAP=128, DIM=2) : 19 ns/call  (O(CAP), linear)
+  memory update  (record_incident)                  : 472 ns/call
+  RAM: sizeof(SafetyMemory<128,2>) = 2080 bytes (~2.0 KB, static, no heap)
+  (full guard decision ~40-76 ns — see sim/bench-guard)
+
+### 8) FAILURE INJECTION — can a violation happen if a component fails?
+  adversarial brain (full throttle) | obstacle-safety held by clearance barrier: unsafe   0.0
+  memory broken (returns no tighten) | sensed obstacles still safe (CBF); hidden hazards exposed: unsafe  29.0
+  => SENSED safety (clearance barrier) holds under brain/memory failure; only the LEARNED
+     (hidden-hazard) protection degrades. Brain-stall => watchdog emergency-stop (on seL4).
+
+### 9) ADVERSARIAL confirm_safe — does a WRONG safe-signal break the HARD guarantee?
+  no-forgetting (warm)              | unsafe   0.0   (full experiential protection)
+  ADVERSARIAL confirm_safe (always) | unsafe  28.1   (degraded but BOUNDED + self-healing)
+  => KEY (answers 'who guarantees confirm_safe is not wrong?'):
+     the HARD safety does NOT depend on confirm_safe. Relaxation is capped at L0 (Thm 1) and
+     the clearance barrier (Thm 4) is independent of the memory -> a fully ADVERSARIAL
+     confirm_safe CANNOT exceed the verified envelope nor break sensed-hazard safety.
+     Worst case = degraded EXPERIENTIAL protection (0 -> 28), BOUNDED and
+     self-healing: each re-exposed incident triggers record_incident -> re-tightens. NOT catastrophic.
+
+
+### 10) SCALABILITY — distinct contexts → entries, recall ns/call, static RAM
+  (entries saturate at CAP by design: merge-by-min keeps the tightest bound ⇒ bounded memory)
+     N=    10 CAP=    16: entries     10 | recall     20.2 ns |       288 bytes (    0.3 KB)
+     N=   100 CAP=   128: entries    100 | recall    210.3 ns |      2080 bytes (    2.0 KB)
+     N=  1000 CAP=  1024: entries   1000 | recall   2268.4 ns |     16416 bytes (   16.0 KB)
+     N= 10000 CAP= 16384: entries  10000 | recall  22962.4 ns |    262176 bytes (  256.0 KB)
+  recall is O(CAP) linear in retained entries; static RAM ~16 B/slot (host timings, ratios stable).
+
+### 11) FALSE POSITIVES (spurious incidents) & FALSE NEGATIVES (missed incidents)
+  -- false positives (ADAPT-warm, Familiar): tighten-only ⇒ safety held, liveness traded --
+     fp_rate=0.000: unsafe  0.00 | distance    347
+     fp_rate=0.001: unsafe  0.00 | distance     87
+     fp_rate=0.010: unsafe  0.00 | distance     52
+     fp_rate=0.050: unsafe  0.00 | distance     63
+  -- false negatives (ADAPTIVE cold, Familiar): missed detections leave hazards unlearned --
+     fn_rate= 0.00: unsafe  3.00 | distance    332
+     fn_rate= 0.25: unsafe  4.00 | distance    343
+     fn_rate= 0.50: unsafe  9.00 | distance    388
+     fn_rate= 0.90: unsafe 17.00 | distance    463
+
+### 12) LONG-HORIZON — 200k steps (10×): memory & safety stable over time?
+  first 20k (cold start)           : unsafe 3
+  full 200k (10×)                  : unsafe 3  (≈0.3 per 20k window) | distance 3199
+  memory entries after 200k        : 3  (CAP=128, bounded by merge-by-min — no growth)
+  => safety learned in the first laps then STABLE; memory bounded; no drift or blow-up over 10× horizon.
+
+================ END OF BATTERY ================

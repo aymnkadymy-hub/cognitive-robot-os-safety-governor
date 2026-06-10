@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Cognitive Robot OS — hardware system description (Raspberry Pi 4 / BCM2711).
+  Like reflex.system but the actuation PD owns **BCM2711 device memory** and drives the real body
+  via pi4-body (IMU over I²C + motors over PWM/GPIO) instead of simulation. Brain and guard are unchanged.
+
+  To build for hardware: microkit ... --board rpi4b_4gb  (requires U-Boot + SD card — see docs/HARDWARE_DRIVERS.md).
+  Note: not runnable on qemu_virt_aarch64 (no BCM2711 devices emulated) — this is a hardware description ready to boot.
+-->
+<system>
+    <memory_region name="reflex" size="0x1000" />
+
+    <!-- BCM2711 device memory (device MMIO, uncached) -->
+    <memory_region name="gpio" size="0x1000" phys_addr="0xFE200000" />
+    <memory_region name="pwm"  size="0x1000" phys_addr="0xFE20C000" />
+    <memory_region name="i2c"  size="0x1000" phys_addr="0xFE804000" />
+
+    <protection_domain name="cognitive" priority="100" stack_size="0x10_000">
+        <program_image path="microkit-memory-pd.elf" />
+        <map mr="reflex" vaddr="0x2_000_000_000" perms="rw" cached="true" setvar_vaddr="reflex_vaddr" />
+    </protection_domain>
+
+    <protection_domain name="guard" priority="254" stack_size="0x10_000">
+        <program_image path="microkit-guard-pd.elf" />
+        <map mr="reflex" vaddr="0x2_000_000_000" perms="rw" cached="true" setvar_vaddr="reflex_vaddr" />
+    </protection_domain>
+
+    <!-- Actuation PD owns the hardware devices (real body) -->
+    <protection_domain name="actuation" priority="200" stack_size="0x10_000">
+        <program_image path="microkit-actuation-pd.elf" />
+        <map mr="reflex" vaddr="0x2_000_000_000" perms="rw" cached="true" setvar_vaddr="reflex_vaddr" />
+        <map mr="gpio" vaddr="0x3_000_000" perms="rw" cached="false" setvar_vaddr="gpio_vaddr" />
+        <map mr="pwm"  vaddr="0x3_001_000" perms="rw" cached="false" setvar_vaddr="pwm_vaddr" />
+        <map mr="i2c"  vaddr="0x3_002_000" perms="rw" cached="false" setvar_vaddr="i2c_vaddr" />
+    </protection_domain>
+
+    <channel><end pd="actuation" id="0" /><end pd="cognitive" id="0" /></channel>
+    <channel><end pd="cognitive" id="1" /><end pd="guard" id="0" /></channel>
+    <channel><end pd="guard" id="1" /><end pd="actuation" id="1" /></channel>
+</system>

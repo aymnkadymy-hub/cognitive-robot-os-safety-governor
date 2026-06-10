@@ -1,0 +1,18 @@
+[package]
+name = "sil-realworld"
+version = "0.1.0"
+edition = "2021"
+description = "Closed loop on REAL sensor data: camera -> world-memory + FSM + guardian"
+license = "MIT"
+
+[[bin]]
+name = "sil-realworld"
+path = "src/main.rs"
+
+[dependencies]
+behavior-fsm = { path = "../../components/behavior-fsm" }
+world-memory = { path = "../../components/world-memory" }
+brain-os-abi = { path = "../../components/brain-os-abi" }
+
+[profile.release]
+opt-level = 3

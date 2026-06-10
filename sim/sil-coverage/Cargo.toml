@@ -1,0 +1,16 @@
+[package]
+name = "sil-coverage"
+version = "0.1.0"
+edition = "2021"
+description = "Arena coverage with random obstacles: cover every cell without crashing, governed by the adaptive safety memory (born cautious)"
+license = "MIT"
+
+[[bin]]
+name = "sil-coverage"
+path = "src/main.rs"
+
+[dependencies]
+safety-memory = { path = "../../components/safety-memory" }
+
+[profile.release]
+opt-level = 3

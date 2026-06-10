@@ -1,0 +1,13 @@
+[package]
+name = "pi4-hal"
+version = "0.1.0"
+edition = "2021"
+description = "BCM2711 (Raspberry Pi 4) peripheral drivers for seL4: GPIO, PWM, I2C (BSC). no_std, host-testable bit logic."
+license = "MIT"
+
+[lib]
+name = "pi4_hal"
+path = "src/lib.rs"
+
+[profile.release]
+opt-level = 3

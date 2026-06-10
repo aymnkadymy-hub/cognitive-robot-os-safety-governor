@@ -1,0 +1,16 @@
+[package]
+name = "sil-adaptive-safety"
+version = "0.1.0"
+edition = "2021"
+description = "SIL: safety envelope that LEARNS to tighten from incidents (Claim A reduction-to-practice)"
+license = "MIT"
+
+[[bin]]
+name = "sil-adaptive-safety"
+path = "src/main.rs"
+
+[dependencies]
+safety-memory = { path = "../../components/safety-memory" }
+
+[profile.release]
+opt-level = 3

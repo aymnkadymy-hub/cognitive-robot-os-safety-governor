@@ -1,0 +1,21 @@
+[package]
+name = "brain-os-abi"
+version = "0.1.0"
+edition = "2021"
+description = "Generalized Brain<->OS contract: N-command shared memory + deterministic safety"
+license = "MIT"
+
+[lib]
+name = "brain_os_abi"
+path = "src/lib.rs"
+
+[dev-dependencies]
+proptest = "1"
+
+# `cfg(kani)` is enabled only under `cargo kani`; declared here so static analysis accepts it (-D warnings).
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(kani)'] }
+
+[profile.release]
+opt-level = 3
+lto = true

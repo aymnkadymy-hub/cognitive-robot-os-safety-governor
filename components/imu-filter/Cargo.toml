@@ -1,0 +1,21 @@
+[package]
+name = "imu-filter"
+version = "0.1.0"
+edition = "2021"
+description = "Mahony-style 1-axis complementary filter: accel+gyro fusion + online gyro-bias calibration — no_std, deterministic, seL4-ready"
+license = "MIT"
+
+[lib]
+name = "imu_filter"
+path = "src/lib.rs"
+
+[dev-dependencies]
+proptest = "1"
+
+# `cfg(kani)` is only active under `cargo kani`; declared here so the static check accepts it (-D warnings).
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(kani)'] }
+
+[profile.release]
+opt-level = 3
+lto = true

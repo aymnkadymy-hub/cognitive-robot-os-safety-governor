@@ -1,0 +1,111 @@
+<!-- 3D Minecraft-style world: Steve character + real cubic objects
+     (table, chair, tree). Objects are static (geoms in worldbody) — the robot collides with them.
+     Add more by copying <geom type="box" .../> with your own colours and positions. -->
+<mujoco model="minecraft_world">
+  <compiler angle="degree" inertiafromgeom="true"/>
+  <option timestep="0.005" iterations="20" integrator="Euler"/>
+
+  <default>
+    <joint armature="0.02" damping="2" limited="true"/>
+    <geom type="box" friction="1 0.1 0.1" density="250"/>
+    <motor ctrllimited="true" ctrlrange="-1 1" gear="80"/>
+  </default>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.5 0.6 0.8" rgb2="0.1 0.15 0.3" width="256" height="256"/>
+    <texture name="grid" type="2d" builtin="checker" rgb1="0.45 0.7 0.35" rgb2="0.6 0.8 0.5" width="300" height="300"/>
+    <material name="grid" texture="grid" texrepeat="10 10" reflectance="0.05"/>
+  </asset>
+
+  <worldbody>
+    <light pos="2 -2 5" dir="-0.3 0.3 -1" diffuse="0.9 0.9 0.9"/>
+    <geom name="floor" type="plane" size="25 25 0.1" material="grid"/>
+
+    <!-- ===== real cubic objects (Minecraft style) ===== -->
+    <!-- tree: brown trunk + cubic green leaves -->
+    <geom name="tree_trunk" type="box" size="0.14 0.14 0.7" pos="2.4 1.6 0.7" rgba="0.40 0.26 0.13 1"/>
+    <geom name="tree_leaves" type="box" size="0.55 0.55 0.45" pos="2.4 1.6 1.7" rgba="0.20 0.55 0.20 1"/>
+
+    <!-- table: brown top + 4 legs -->
+    <geom name="table_top" type="box" size="0.45 0.35 0.03" pos="2.0 -1.2 0.5" rgba="0.55 0.36 0.18 1"/>
+    <geom name="table_l1" type="box" size="0.04 0.04 0.235" pos="1.6 -0.9 0.235" rgba="0.45 0.29 0.14 1"/>
+    <geom name="table_l2" type="box" size="0.04 0.04 0.235" pos="2.4 -0.9 0.235" rgba="0.45 0.29 0.14 1"/>
+    <geom name="table_l3" type="box" size="0.04 0.04 0.235" pos="1.6 -1.5 0.235" rgba="0.45 0.29 0.14 1"/>
+    <geom name="table_l4" type="box" size="0.04 0.04 0.235" pos="2.4 -1.5 0.235" rgba="0.45 0.29 0.14 1"/>
+
+    <!-- chair: seat + backrest + 4 legs -->
+    <geom name="chair_seat" type="box" size="0.18 0.18 0.03" pos="1.0 -1.3 0.27" rgba="0.60 0.40 0.20 1"/>
+    <geom name="chair_back" type="box" size="0.18 0.03 0.22" pos="1.0 -1.45 0.49" rgba="0.55 0.36 0.18 1"/>
+    <geom name="chair_l1" type="box" size="0.03 0.03 0.135" pos="0.85 -1.15 0.135" rgba="0.50 0.33 0.16 1"/>
+    <geom name="chair_l2" type="box" size="0.03 0.03 0.135" pos="1.15 -1.15 0.135" rgba="0.50 0.33 0.16 1"/>
+    <geom name="chair_l3" type="box" size="0.03 0.03 0.135" pos="0.85 -1.45 0.135" rgba="0.50 0.33 0.16 1"/>
+    <geom name="chair_l4" type="box" size="0.03 0.03 0.135" pos="1.15 -1.45 0.135" rgba="0.50 0.33 0.16 1"/>
+
+    <!-- ===== blocky Steve character (3D, free joint) ===== -->
+    <body name="torso" pos="0 0 0.86">
+      <freejoint name="root"/>
+      <geom name="torso" size="0.07 0.13 0.18" pos="0 0 0" rgba="0.0 0.66 0.66 1"/>
+      <geom name="head" size="0.10 0.10 0.10" pos="0 0 0.30" rgba="0.80 0.62 0.46 1"/>
+      <geom name="hair" size="0.105 0.105 0.03" pos="0 0 0.39" rgba="0.35 0.22 0.10 1"/>
+
+      <body name="upper_arm_r" pos="0 0.19 0.12">
+        <joint name="shoulder_r" type="hinge" axis="0 1 0" range="-90 90"/>
+        <geom size="0.05 0.05 0.13" pos="0 0 -0.10" rgba="0.0 0.66 0.66 1"/>
+        <body name="lower_arm_r" pos="0 0 -0.24">
+          <joint name="elbow_r" type="hinge" axis="0 1 0" range="-130 0"/>
+          <geom size="0.05 0.05 0.12" pos="0 0 -0.10" rgba="0.80 0.62 0.46 1"/>
+        </body>
+      </body>
+      <body name="upper_arm_l" pos="0 -0.19 0.12">
+        <joint name="shoulder_l" type="hinge" axis="0 1 0" range="-90 90"/>
+        <geom size="0.05 0.05 0.13" pos="0 0 -0.10" rgba="0.0 0.66 0.66 1"/>
+        <body name="lower_arm_l" pos="0 0 -0.24">
+          <joint name="elbow_l" type="hinge" axis="0 1 0" range="-130 0"/>
+          <geom size="0.05 0.05 0.12" pos="0 0 -0.10" rgba="0.80 0.62 0.46 1"/>
+        </body>
+      </body>
+
+      <body name="thigh_r" pos="0 0.10 -0.18">
+        <joint name="hip_x_r" type="hinge" axis="1 0 0" range="-30 30"/>
+        <joint name="hip_y_r" type="hinge" axis="0 1 0" range="-90 50"/>
+        <geom size="0.06 0.06 0.17" pos="0 0 -0.15" rgba="0.27 0.27 0.55 1"/>
+        <body name="shin_r" pos="0 0 -0.32">
+          <joint name="knee_r" type="hinge" axis="0 1 0" range="0 90"/>
+          <geom size="0.05 0.05 0.16" pos="0 0 -0.14" rgba="0.27 0.27 0.55 1"/>
+          <body name="foot_r" pos="0.04 0 -0.30">
+            <joint name="ankle_r" type="hinge" axis="0 1 0" range="-50 50"/>
+            <geom size="0.13 0.07 0.03" pos="0.05 0 0" rgba="0.4 0.4 0.45 1"/>
+          </body>
+        </body>
+      </body>
+      <body name="thigh_l" pos="0 -0.10 -0.18">
+        <joint name="hip_x_l" type="hinge" axis="1 0 0" range="-30 30"/>
+        <joint name="hip_y_l" type="hinge" axis="0 1 0" range="-90 50"/>
+        <geom size="0.06 0.06 0.17" pos="0 0 -0.15" rgba="0.27 0.27 0.55 1"/>
+        <body name="shin_l" pos="0 0 -0.32">
+          <joint name="knee_l" type="hinge" axis="0 1 0" range="0 90"/>
+          <geom size="0.05 0.05 0.16" pos="0 0 -0.14" rgba="0.27 0.27 0.55 1"/>
+          <body name="foot_l" pos="0.04 0 -0.30">
+            <joint name="ankle_l" type="hinge" axis="0 1 0" range="-50 50"/>
+            <geom size="0.13 0.07 0.03" pos="0.05 0 0" rgba="0.4 0.4 0.45 1"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <motor joint="hip_y_r"/>
+    <motor joint="hip_x_r"/>
+    <motor joint="knee_r"/>
+    <motor joint="ankle_r" gear="40"/>
+    <motor joint="hip_y_l"/>
+    <motor joint="hip_x_l"/>
+    <motor joint="knee_l"/>
+    <motor joint="ankle_l" gear="40"/>
+    <motor joint="shoulder_r" gear="30"/>
+    <motor joint="shoulder_l" gear="30"/>
+    <motor joint="elbow_r" gear="18"/>
+    <motor joint="elbow_l" gear="18"/>
+  </actuator>
+</mujoco>

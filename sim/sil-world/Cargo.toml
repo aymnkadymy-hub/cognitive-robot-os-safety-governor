@@ -1,0 +1,16 @@
+[package]
+name = "sil-world"
+version = "0.1.0"
+edition = "2021"
+description = "SIL: robot perceives its 3D world and knows what is around it (world-memory on the OS)"
+license = "MIT"
+
+[[bin]]
+name = "sil-world"
+path = "src/main.rs"
+
+[dependencies]
+world-memory = { path = "../../components/world-memory" }
+
+[profile.release]
+opt-level = 3

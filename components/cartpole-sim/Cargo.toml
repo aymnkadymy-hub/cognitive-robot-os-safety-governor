@@ -1,0 +1,13 @@
+[package]
+name = "cartpole-sim"
+version = "0.1.0"
+edition = "2021"
+description = "no_std cartpole physics (the simulated robot body) — runs on seL4 and host"
+license = "MIT"
+
+[lib]
+name = "cartpole_sim"
+path = "src/lib.rs"
+
+[dependencies]
+libm = "0.2"   # sin/cos for no_std (seL4 + host)

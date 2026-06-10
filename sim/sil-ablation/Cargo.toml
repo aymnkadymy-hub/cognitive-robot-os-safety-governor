@@ -1,0 +1,18 @@
+[package]
+name = "sil-ablation"
+version = "0.1.0"
+edition = "2021"
+description = "Ablation: adaptive guard vs static envelopes / fixed CBF / Simplex on the safety-liveness Pareto frontier"
+license = "MIT"
+
+[[bin]]
+name = "sil-ablation"
+path = "src/main.rs"
+
+[dependencies]
+safety-memory = { path = "../../components/safety-memory" }
+clearance-guard = { path = "../../components/clearance-guard" }
+libm = "0.2"
+
+[profile.release]
+opt-level = 3

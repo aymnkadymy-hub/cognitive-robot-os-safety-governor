@@ -1,0 +1,18 @@
+[package]
+name = "sil-skill"
+version = "0.1.0"
+edition = "2021"
+description = "SIL: deploy any multi-joint learned skill on the OS (memory + generalized guard)"
+license = "MIT"
+
+[[bin]]
+name = "sil-skill"
+path = "src/main.rs"
+
+[dependencies]
+brain-os-abi = { path = "../../components/brain-os-abi" }
+neural-memory = { path = "../../components/memory" }
+walker-policy = { path = "../../components/walker-policy" }
+
+[profile.release]
+opt-level = 3

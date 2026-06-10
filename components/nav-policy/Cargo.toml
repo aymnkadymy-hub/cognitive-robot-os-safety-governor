@@ -1,0 +1,17 @@
+[package]
+name = "nav-policy"
+version = "0.1.0"
+edition = "2021"
+description = "Exported PPO driving policy (11->64->64->2) as a no_std MLP — a learned navigation brain, seL4-ready (bridge B)"
+license = "MIT"
+
+[lib]
+name = "nav_policy"
+path = "src/lib.rs"
+
+[dependencies]
+libm = "0.2"
+
+[profile.release]
+opt-level = 3
+lto = true

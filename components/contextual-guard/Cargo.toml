@@ -1,0 +1,17 @@
+[package]
+name = "contextual-guard"
+version = "0.1.0"
+edition = "2021"
+description = "System-wide adaptive safety: couples perceptual (world-memory) context into the tightening-only envelope"
+license = "MIT"
+
+[lib]
+name = "contextual_guard"
+path = "src/lib.rs"
+
+[dependencies]
+safety-memory = { path = "../safety-memory" }
+
+[profile.release]
+opt-level = 3
+lto = true

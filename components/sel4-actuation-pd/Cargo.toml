@@ -1,0 +1,21 @@
+[package]
+name = "microkit-actuation-pd"
+version = "0.1.0"
+edition = "2021"
+description = "seL4 actuation/body PD: owns the simulated cartpole, applies the approved command"
+license = "MIT"
+
+[[bin]]
+name = "microkit-actuation-pd"
+path = "src/main.rs"
+
+[dependencies]
+sel4-microkit = { path = "../../tools/rust-sel4/crates/sel4-microkit", default-features = false }
+sel4-shared-memory = { path = "../../tools/rust-sel4/crates/sel4-shared-memory" }
+reflex-abi = { path = "../reflex-abi" }
+cartpole-sim = { path = "../cartpole-sim" }
+hal = { path = "../hal" }
+
+[profile.release]
+panic = "abort"
+lto = true

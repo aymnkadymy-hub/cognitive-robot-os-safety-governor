@@ -1,0 +1,17 @@
+[package]
+name = "world-memory"
+version = "0.1.0"
+edition = "2021"
+description = "no_std spatial-semantic world model: embeddings + pose + class + time, queryable"
+license = "MIT"
+
+[lib]
+name = "world_memory"
+path = "src/lib.rs"
+
+[dependencies]
+libm = "0.2"
+
+[profile.release]
+opt-level = 3
+lto = true

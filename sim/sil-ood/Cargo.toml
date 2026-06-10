@@ -1,0 +1,17 @@
+[package]
+name = "sil-ood"
+version = "0.1.0"
+edition = "2021"
+description = "Software-in-the-loop demo of the Mahalanobis OOD tighten-only safety gate (same crates as seL4)"
+license = "MIT"
+
+[dependencies]
+# Same crates that run on seL4 (SIL principle: one codebase for both host and target).
+hal = { path = "../../components/hal" }
+mujoco-pendulum-policy = { path = "../../components/mujoco-pendulum-policy" }
+safety-model = { path = "../../components/safety-model" }
+ood-detector = { path = "../../components/ood-detector" }
+
+[profile.release]
+opt-level = 3
+lto = true

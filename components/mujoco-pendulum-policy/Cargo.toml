@@ -1,0 +1,17 @@
+[package]
+name = "mujoco-pendulum-policy"
+version = "0.1.0"
+edition = "2021"
+description = "no_std neural policy trained on real MuJoCo physics (InvertedPendulum)"
+license = "MIT"
+
+[lib]
+name = "mujoco_pendulum_policy"
+path = "src/lib.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+
+[dev-dependencies]
+cartpole-sim = { path = "../cartpole-sim" }

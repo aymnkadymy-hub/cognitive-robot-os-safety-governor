@@ -1,0 +1,9 @@
+[package]
+name = "neural-safety"
+version = "0.1.0"
+edition = "2021"
+description = "Matched-compute learned-safety baselines (Neural CBF / Shielded RL / Neural Simplex): a tiny deterministic MLP that learns a safe-speed boundary from incident experience"
+license = "MIT"
+
+[dependencies]
+libm = "0.2"
