@@ -1,7 +1,12 @@
 # Cognitive Robot OS — Verification-Preserving Adaptive Safety Governor
 
-> **Reproducibility artifact** for the paper *Cognitive Robot OS: A Verification-Preserving
-> Adaptive Safety Governor for Untrusted Learned Policies*. Everything needed for an independent
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20645786.svg)](https://doi.org/10.5281/zenodo.20645786)
+[![License: MIT](https://img.shields.io/badge/Code-MIT-green.svg)](LICENSE)
+
+> 📄 **Preprint (full paper, open access):** https://doi.org/10.5281/zenodo.20645786
+
+> **Reproducibility artifact** for the paper *Verification-Preserving Adaptive Safety for Untrusted
+> Robot Policies on a Formally Verified Microkernel*. Everything needed for an independent
 > reader to **rebuild the system and reproduce every experimental result** is in this repository.
 
 > **Open source.** Code is released under the MIT licence; the paper, figures, and prose

@@ -26,3 +26,18 @@ version: "0.1.0"
 date-released: "2026-06-11"
 repository-code: "https://github.com/aymnkadymy-hub/cognitive-robot-os-safety-governor"
 license: MIT
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.20645786"
+    description: "Concept DOI (all versions) of the preprint on Zenodo"
+preferred-citation:
+  type: article
+  title: "Verification-Preserving Adaptive Safety for Untrusted Robot Policies on a Formally Verified Microkernel"
+  authors:
+    - family-names: "Yousef"
+      given-names: "Ayman Kazim"
+      orcid: "https://orcid.org/0009-0006-7409-9367"
+      affiliation: "Undergraduate Student, Department of Artificial Intelligence Engineering, AlSafwa University, Karbala, Iraq"
+  year: 2026
+  doi: "10.5281/zenodo.20645786"
+  url: "https://doi.org/10.5281/zenodo.20645786"
