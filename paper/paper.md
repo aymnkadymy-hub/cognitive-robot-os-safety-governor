@@ -12,7 +12,7 @@ tags:
   - reproducibility
 authors:
   - name: Ayman Kazem Yousef
-    orcid: 0000-0000-0000-0000
+    orcid: 0009-0006-7409-9367
     affiliation: 1
 affiliations:
   - name: Independent Researcher
@@ -90,7 +90,7 @@ machine-checked by bounded model checking and property tests, **not** by an inte
 
 # Reproducibility
 
-The repository (`__REPO_URL__`) requires only a Rust toolchain — no GPU, network, or hardware for the
+The repository (`https://github.com/aymnkadymy-hub/cognitive-robot-os-safety-governor`) requires only a Rust toolchain — no GPU, network, or hardware for the
 SiL evaluation; the seL4/QEMU reflex-arc demo is optional. A single command,
 `scripts/reproduce.sh`, runs the property tests (the theorems), the multi-environment evaluation, the
 12-test battery, the Pareto ablation, the guard timing, and the stress battery, and prints the rows
