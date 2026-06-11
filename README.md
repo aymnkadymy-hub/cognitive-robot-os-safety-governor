@@ -148,7 +148,7 @@ reference file*, and the (optional) seL4-on-QEMU reflex-arc demo.
 
 ## 5. Authorship & citation
 
-Author: **Ayman Kazem Yousef** (Independent Researcher). See [`CITATION.cff`](CITATION.cff).
+Author: **Ayman Kazem Yousef** (Undergraduate Student, Department of Artificial Intelligence Engineering, AlSafwa University). See [`CITATION.cff`](CITATION.cff).
 
 ## 6. License
 
