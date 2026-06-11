@@ -6,7 +6,7 @@ authors:
   - family-names: "Yousef"
     given-names: "Ayman Kazim"
     orcid: "https://orcid.org/0009-0006-7409-9367"
-    affiliation: "Independent Researcher, Iraq"
+    affiliation: "Independent Researcher, Karbala, Iraq"
 abstract: >-
   A model-agnostic, formally-bounded safety-governance architecture for untrusted learned
   policies. A small, machine-checked Guard holds final authority over the actuators and keeps any
