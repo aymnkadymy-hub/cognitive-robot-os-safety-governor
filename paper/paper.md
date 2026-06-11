@@ -15,7 +15,7 @@ authors:
     orcid: 0009-0006-7409-9367
     affiliation: 1
 affiliations:
-  - name: Independent Researcher
+  - name: Independent Researcher, Iraq
     index: 1
 date: 11 June 2026
 bibliography: paper.bib
