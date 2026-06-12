@@ -1,0 +1,61 @@
+# CI — verifies the artifact's central claim on every push: the code builds, the
+# theorems' property tests pass, and the deterministic experiments reproduce the committed
+# reference outputs bit-for-bit (timing lines, which are host-dependent, are excluded).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  reproduce:
+    name: Tests + deterministic reproduction
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust (stable)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Format check
+        run: cargo fmt --all --check
+
+      - name: Workspace compiles (all crates, all targets)
+        run: cargo check --workspace --all-targets --release
+
+      - name: Lint (clippy, deny warnings)
+        run: cargo clippy --workspace --all-targets --release -- -D warnings
+
+      - name: A) Property tests — the theorems, machine-checked
+        run: cargo test --workspace --release
+
+      - name: B) Multi-environment evaluation reproduces the reference
+        run: |
+          cargo run --release -p sil-eval > my-B.txt
+          diff <(grep -E '^\[eval\]|^=== environment' my-B.txt) \
+               <(grep -E '^\[eval\]|^=== environment' results/reference/B-sil-eval.txt)
+
+      - name: C) Experiment battery reproduces the reference (timing lines excluded)
+        run: |
+          cargo run --release -p sil-experiments > my-C.txt
+          diff <(grep -vE 'ns/call| ns ' my-C.txt) \
+               <(grep -vE 'ns/call| ns ' results/reference/C-sil-experiments.txt)
+
+      - name: D) Pareto ablation reproduces the reference
+        run: |
+          cargo run --release -p sil-ablation > my-D.txt
+          diff my-D.txt results/reference/D-sil-ablation.txt
+
+      - name: F) Stress battery reproduces the reference
+        run: |
+          cargo run --release -p sil-stress > my-F.txt
+          diff my-F.txt results/reference/F-sil-stress.txt
