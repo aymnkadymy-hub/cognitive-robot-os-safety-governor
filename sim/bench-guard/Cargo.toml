@@ -13,7 +13,3 @@ path = "src/main.rs"
 safety-model = { path = "../../components/safety-model" }
 safety-memory = { path = "../../components/safety-memory" }
 clearance-guard = { path = "../../components/clearance-guard" }
-
-[profile.release]
-opt-level = 3
-lto = true

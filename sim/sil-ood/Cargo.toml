@@ -11,7 +11,3 @@ hal = { path = "../../components/hal" }
 mujoco-pendulum-policy = { path = "../../components/mujoco-pendulum-policy" }
 safety-model = { path = "../../components/safety-model" }
 ood-detector = { path = "../../components/ood-detector" }
-
-[profile.release]
-opt-level = 3
-lto = true

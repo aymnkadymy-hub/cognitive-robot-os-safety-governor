@@ -9,9 +9,5 @@ license = "MIT"
 name = "mujoco_pendulum_policy"
 path = "src/lib.rs"
 
-[profile.release]
-opt-level = 3
-lto = true
-
 [dev-dependencies]
 cartpole-sim = { path = "../cartpole-sim" }

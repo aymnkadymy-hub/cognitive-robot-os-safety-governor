@@ -15,6 +15,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f2032f911046de80f0a198e0901378627c33f59ea0ac00e363d481118bd70a53"
 
 [[package]]
+name = "behavior-fsm"
+version = "0.1.0"
+
+[[package]]
+name = "bench-guard"
+version = "0.1.0"
+dependencies = [
+ "clearance-guard",
+ "safety-memory",
+ "safety-model",
+]
+
+[[package]]
 name = "bit-set"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -36,10 +49,43 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b4388bee8683e3d04af747c73422af53102d2bd24d9eadb6cbc100baef4b43f8"
 
 [[package]]
+name = "brain-os-abi"
+version = "0.1.0"
+dependencies = [
+ "proptest",
+]
+
+[[package]]
+name = "cartpole-policy"
+version = "0.1.0"
+
+[[package]]
+name = "cartpole-sim"
+version = "0.1.0"
+dependencies = [
+ "libm",
+]
+
+[[package]]
 name = "cfg-if"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801"
+
+[[package]]
+name = "clearance-guard"
+version = "0.1.0"
+dependencies = [
+ "libm",
+ "proptest",
+]
+
+[[package]]
+name = "contextual-guard"
+version = "0.1.0"
+dependencies = [
+ "safety-memory",
+]
 
 [[package]]
 name = "equivalent"
@@ -101,6 +147,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "hal"
+version = "0.1.0"
+dependencies = [
+ "cartpole-sim",
+]
+
+[[package]]
 name = "hashbrown"
 version = "0.15.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -122,10 +175,24 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea"
 
 [[package]]
+name = "humanoid-policy"
+version = "0.1.0"
+dependencies = [
+ "libm",
+]
+
+[[package]]
 name = "id-arena"
 version = "2.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3d3067d79b975e8844ca9eb072e16b31c3c1c36928edf9c6789548c524d0d954"
+
+[[package]]
+name = "imu-filter"
+version = "0.1.0"
+dependencies = [
+ "proptest",
+]
 
 [[package]]
 name = "indexmap"
@@ -158,6 +225,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "68ab91017fe16c622486840e4c83c9a37afeff978bd239b5293d61ece587de66"
 
 [[package]]
+name = "libm"
+version = "0.2.16"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b6d2cec3eae94f9f509c767b45932f1ada8350c4bdb85af2fcab4a3c14807981"
+
+[[package]]
 name = "linux-raw-sys"
 version = "0.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -171,9 +244,34 @@ checksum = "953f07c43838f8e6f9758cab68bf5bed85465e7587ebe0b823f1bcd81978ad3a"
 
 [[package]]
 name = "memchr"
-version = "2.8.1"
+version = "2.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6b947ae49db0d222b1dbc6b113ce7248a3fc3a6ca21b696717bfc000ba4484d8"
+checksum = "88904434abc2901f197fe8cc55f0445e7ded921dba5911dad2e2b39b48e663c4"
+
+[[package]]
+name = "mujoco-pendulum-policy"
+version = "0.1.0"
+dependencies = [
+ "cartpole-sim",
+]
+
+[[package]]
+name = "nav-policy"
+version = "0.1.0"
+dependencies = [
+ "libm",
+]
+
+[[package]]
+name = "neural-memory"
+version = "0.1.0"
+
+[[package]]
+name = "neural-safety"
+version = "0.1.0"
+dependencies = [
+ "libm",
+]
 
 [[package]]
 name = "num-traits"
@@ -196,6 +294,28 @@ version = "0.1.0"
 dependencies = [
  "proptest",
 ]
+
+[[package]]
+name = "perception-encoder"
+version = "0.1.0"
+
+[[package]]
+name = "pi4-body"
+version = "0.1.0"
+dependencies = [
+ "hal",
+ "imu-filter",
+ "libm",
+ "pi4-hal",
+]
+
+[[package]]
+name = "pi4-hal"
+version = "0.1.0"
+
+[[package]]
+name = "policy-mlp"
+version = "0.1.0"
 
 [[package]]
 name = "ppv-lite86"
@@ -310,10 +430,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "reactive-evasion"
+version = "0.1.0"
+dependencies = [
+ "libm",
+]
+
+[[package]]
+name = "reflex-abi"
+version = "0.1.0"
+dependencies = [
+ "proptest",
+]
+
+[[package]]
 name = "regex-syntax"
-version = "0.8.10"
+version = "0.8.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dc897dd8d9e8bd1ed8cdad82b5966c3e0ecae09fb1907d58efaa013543185d0a"
+checksum = "d6f6ff9a378485b298a5286656da665ba74413d36db0979633275d2e708145d4"
 
 [[package]]
 name = "rustix"
@@ -338,6 +472,23 @@ dependencies = [
  "quick-error",
  "tempfile",
  "wait-timeout",
+]
+
+[[package]]
+name = "safety-memory"
+version = "0.1.0"
+dependencies = [
+ "brain-os-abi",
+ "libm",
+ "proptest",
+]
+
+[[package]]
+name = "safety-model"
+version = "0.1.0"
+dependencies = [
+ "libm",
+ "proptest",
 ]
 
 [[package]]
@@ -389,6 +540,151 @@ dependencies = [
 ]
 
 [[package]]
+name = "sil-ablation"
+version = "0.1.0"
+dependencies = [
+ "clearance-guard",
+ "libm",
+ "safety-memory",
+]
+
+[[package]]
+name = "sil-adaptive-safety"
+version = "0.1.0"
+dependencies = [
+ "safety-memory",
+]
+
+[[package]]
+name = "sil-adversarial"
+version = "0.1.0"
+dependencies = [
+ "libm",
+ "reactive-evasion",
+]
+
+[[package]]
+name = "sil-born-cautious"
+version = "0.1.0"
+dependencies = [
+ "safety-memory",
+]
+
+[[package]]
+name = "sil-campaign"
+version = "0.1.0"
+dependencies = [
+ "clearance-guard",
+ "libm",
+ "ood-detector",
+ "safety-memory",
+]
+
+[[package]]
+name = "sil-cartpole"
+version = "0.1.0"
+dependencies = [
+ "cartpole-policy",
+ "cartpole-sim",
+ "neural-memory",
+ "reflex-abi",
+]
+
+[[package]]
+name = "sil-clearance"
+version = "0.1.0"
+dependencies = [
+ "clearance-guard",
+ "libm",
+]
+
+[[package]]
+name = "sil-coverage"
+version = "0.1.0"
+dependencies = [
+ "safety-memory",
+]
+
+[[package]]
+name = "sil-eval"
+version = "0.1.0"
+dependencies = [
+ "clearance-guard",
+ "libm",
+ "neural-safety",
+ "safety-memory",
+]
+
+[[package]]
+name = "sil-experiments"
+version = "0.1.0"
+dependencies = [
+ "clearance-guard",
+ "libm",
+ "safety-memory",
+]
+
+[[package]]
+name = "sil-generalize"
+version = "0.1.0"
+dependencies = [
+ "safety-model",
+]
+
+[[package]]
+name = "sil-nav-guarded"
+version = "0.1.0"
+dependencies = [
+ "clearance-guard",
+ "libm",
+ "nav-policy",
+]
+
+[[package]]
+name = "sil-ood"
+version = "0.1.0"
+dependencies = [
+ "hal",
+ "mujoco-pendulum-policy",
+ "ood-detector",
+ "safety-model",
+]
+
+[[package]]
+name = "sil-realworld"
+version = "0.1.0"
+dependencies = [
+ "behavior-fsm",
+ "brain-os-abi",
+ "world-memory",
+]
+
+[[package]]
+name = "sil-skill"
+version = "0.1.0"
+dependencies = [
+ "brain-os-abi",
+ "neural-memory",
+ "walker-policy",
+]
+
+[[package]]
+name = "sil-stress"
+version = "0.1.0"
+dependencies = [
+ "clearance-guard",
+ "libm",
+ "safety-memory",
+]
+
+[[package]]
+name = "sil-world"
+version = "0.1.0"
+dependencies = [
+ "world-memory",
+]
+
+[[package]]
 name = "syn"
 version = "2.0.117"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -437,6 +733,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "09ac3b126d3914f9849036f826e054cbabdc8519970b8998ddaf3b5bd3c65f11"
 dependencies = [
  "libc",
+]
+
+[[package]]
+name = "walker-policy"
+version = "0.1.0"
+dependencies = [
+ "libm",
 ]
 
 [[package]]
@@ -601,19 +904,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "world-memory"
+version = "0.1.0"
+dependencies = [
+ "libm",
+]
+
+[[package]]
 name = "zerocopy"
-version = "0.8.50"
+version = "0.8.52"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3b065d4f0e55f82fae73202e189638116a87c55ab6b8e6c2721e13dd9d854ad1"
+checksum = "ce1022995ff5ff5d841ad7d994facc23098cd40152f2c1d11cd607c6f530653f"
 dependencies = [
  "zerocopy-derive",
 ]
 
 [[package]]
 name = "zerocopy-derive"
-version = "0.8.50"
+version = "0.8.52"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0b631b19d36a892ab55420c92dbc83ccd79274f25be714855d3074aa71cab639"
+checksum = "1ae7f38b72ec2a254e2b87ef277cf2cd4fb97cbebf944faa6f33354da0867930"
 dependencies = [
  "proc-macro2",
  "quote",

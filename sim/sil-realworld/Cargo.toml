@@ -13,6 +13,3 @@ path = "src/main.rs"
 behavior-fsm = { path = "../../components/behavior-fsm" }
 world-memory = { path = "../../components/world-memory" }
 brain-os-abi = { path = "../../components/brain-os-abi" }
-
-[profile.release]
-opt-level = 3

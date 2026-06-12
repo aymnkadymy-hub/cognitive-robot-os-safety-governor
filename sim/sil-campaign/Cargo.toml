@@ -10,7 +10,3 @@ clearance-guard = { path = "../../components/clearance-guard" }
 safety-memory = { path = "../../components/safety-memory" }
 ood-detector = { path = "../../components/ood-detector" }
 libm = "0.2"
-
-[profile.release]
-opt-level = 3
-lto = true

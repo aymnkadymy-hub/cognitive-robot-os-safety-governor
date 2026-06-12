@@ -8,6 +8,3 @@ license = "MIT"
 [lib]
 name = "pi4_hal"
 path = "src/lib.rs"
-
-[profile.release]
-opt-level = 3

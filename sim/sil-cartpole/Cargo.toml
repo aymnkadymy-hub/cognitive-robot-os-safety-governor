@@ -15,6 +15,3 @@ reflex-abi = { path = "../../components/reflex-abi" }
 neural-memory = { path = "../../components/memory" }
 cartpole-policy = { path = "../../components/cartpole-policy" }
 cartpole-sim = { path = "../../components/cartpole-sim" }
-
-[profile.release]
-opt-level = 3

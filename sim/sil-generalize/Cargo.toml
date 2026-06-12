@@ -11,6 +11,3 @@ path = "src/main.rs"
 
 [dependencies]
 safety-model = { path = "../../components/safety-model" }
-
-[profile.release]
-opt-level = 3

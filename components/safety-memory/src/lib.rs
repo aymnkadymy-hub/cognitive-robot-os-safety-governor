@@ -50,7 +50,7 @@ pub struct SafetyMemory<const CAP: usize, const DIM: usize> {
     sim_threshold: f32, // similarity sufficient to associate a state with an incident
     contraction: f32,   // tightening factor (< 1)
     floor: f32,         // minimum limit (never goes below this)
-    evidence_k: u16,    // evidence threshold for optional forgetting (safe passages before relaxing)
+    evidence_k: u16, // evidence threshold for optional forgetting (safe passages before relaxing)
 }
 
 impl<const CAP: usize, const DIM: usize> SafetyMemory<CAP, DIM> {

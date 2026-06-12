@@ -13,6 +13,3 @@ path = "src/main.rs"
 brain-os-abi = { path = "../../components/brain-os-abi" }
 neural-memory = { path = "../../components/memory" }
 walker-policy = { path = "../../components/walker-policy" }
-
-[profile.release]
-opt-level = 3

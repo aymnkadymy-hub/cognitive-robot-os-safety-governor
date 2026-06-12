@@ -75,7 +75,7 @@ struct Cfg {
     learn: bool,
     adversarial_brain: bool, // brain always commands maximum speed (guarantee stress test)
     mem_broken: bool,        // memory broken (always returns V_MAX)
-    forget: bool,            // opt-in evidence-based forgetting (confirmed-safe pass → gradual relaxation)
+    forget: bool, // opt-in evidence-based forgetting (confirmed-safe pass → gradual relaxation)
     adv_forget: bool, // adversarial confirm_safe: called every step even inside a hazard (false-safe signal)
     fp_rate: f32,     // false positive: record a SPURIOUS incident with this prob when no hazard
     fn_rate: f32,     // false negative: SKIP recording a real incident with this prob

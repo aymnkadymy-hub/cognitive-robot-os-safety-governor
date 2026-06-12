@@ -1,5 +1,5 @@
 //! # imu-filter — Mahony-formulation complementary filter for the pitch axis
-//!          (fusion + online gyro-bias calibration)
+//! (fusion + online gyro-bias calibration)
 //!
 //! Fuses the pitch angle from **acceleration** (long-term reference, but noisy under
 //! dynamic acceleration/vibration) with the **gyro** rate (smooth short-term, but drifts)
@@ -25,10 +25,10 @@
 /// State is `Copy` for easy placement behind a `Cell` in a driver that lacks `&mut self` in `sense`.
 #[derive(Clone, Copy, Debug)]
 pub struct MahonyPitchFilter {
-    pitch: f32,       // fused pitch estimate (radians)
-    bias: f32,        // estimated gyro bias (rad/s) — continuous calibration
-    kp: f32,          // proportional correction gain (pulls toward accel reference)
-    ki: f32,          // integral correction gain (learns the bias)
+    pitch: f32, // fused pitch estimate (radians)
+    bias: f32,  // estimated gyro bias (rad/s) — continuous calibration
+    kp: f32,    // proportional correction gain (pulls toward accel reference)
+    ki: f32,    // integral correction gain (learns the bias)
     initialized: bool,
 }
 

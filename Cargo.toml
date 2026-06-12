@@ -1,0 +1,59 @@
+# Workspace root — one lockfile, one target/ dir, shared release profile.
+# The three seL4/Microkit protection domains are excluded: they build against a custom
+# aarch64-sel4-microkit target with `-Z build-std` and path-deps under tools/rust-sel4
+# (see docs/ENVIRONMENT.md §3), so they are built separately from their own directories.
+[workspace]
+resolver = "2"
+members = [
+    "components/behavior-fsm",
+    "components/brain-os-abi",
+    "components/cartpole-policy",
+    "components/cartpole-sim",
+    "components/clearance-guard",
+    "components/contextual-guard",
+    "components/hal",
+    "components/humanoid-policy",
+    "components/imu-filter",
+    "components/memory",
+    "components/mujoco-pendulum-policy",
+    "components/nav-policy",
+    "components/neural-safety",
+    "components/ood-detector",
+    "components/perception",
+    "components/policy",
+    "components/reactive-evasion",
+    "components/reflex-abi",
+    "components/safety-memory",
+    "components/safety-model",
+    "components/walker-policy",
+    "components/world-memory",
+    "drivers/pi4-body",
+    "drivers/pi4-hal",
+    "sim/bench-guard",
+    "sim/sil-ablation",
+    "sim/sil-adaptive-safety",
+    "sim/sil-adversarial",
+    "sim/sil-born-cautious",
+    "sim/sil-campaign",
+    "sim/sil-cartpole",
+    "sim/sil-clearance",
+    "sim/sil-coverage",
+    "sim/sil-eval",
+    "sim/sil-experiments",
+    "sim/sil-generalize",
+    "sim/sil-nav-guarded",
+    "sim/sil-ood",
+    "sim/sil-realworld",
+    "sim/sil-skill",
+    "sim/sil-stress",
+    "sim/sil-world",
+]
+exclude = [
+    "components/sel4-actuation-pd",
+    "components/sel4-guard-pd",
+    "components/sel4-memory-pd",
+]
+
+[profile.release]
+opt-level = 3
+lto = true

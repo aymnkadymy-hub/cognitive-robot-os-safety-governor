@@ -15,7 +15,3 @@ proptest = "1"
 # `cfg(kani)` is only active under `cargo kani`; declared here so the static check accepts it (-D warnings).
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(kani)'] }
-
-[profile.release]
-opt-level = 3
-lto = true

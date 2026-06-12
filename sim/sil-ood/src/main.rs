@@ -204,7 +204,10 @@ fn main() {
     println!("[ood]   AUC ≈ {auc:.3}");
 
     // Core safety invariants are non-negotiable.
-    assert_eq!(raises, 0, "OOD gate raised the bound — violated the tighten-only property");
+    assert_eq!(
+        raises, 0,
+        "OOD gate raised the bound — violated the tighten-only property"
+    );
     assert_eq!(violations, 0, "envelope violated — broke the kernel proof");
     assert!(all_tightened, "an extreme state was not tightened");
     assert_eq!(detected, extremes.len(), "OOD gate missed extreme states");

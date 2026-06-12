@@ -12,6 +12,3 @@ path = "src/main.rs"
 [dependencies]
 clearance-guard = { path = "../../components/clearance-guard" }
 libm = "0.2"
-
-[profile.release]
-opt-level = 3

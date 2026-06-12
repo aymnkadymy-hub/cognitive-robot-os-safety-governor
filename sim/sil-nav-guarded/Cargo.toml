@@ -13,6 +13,3 @@ path = "src/main.rs"
 nav-policy = { path = "../../components/nav-policy" }
 clearance-guard = { path = "../../components/clearance-guard" }
 libm = "0.2"
-
-[profile.release]
-opt-level = 3

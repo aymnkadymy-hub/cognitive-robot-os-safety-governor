@@ -12,7 +12,3 @@ path = "src/main.rs"
 [dependencies]
 libm = "0.2"
 reactive-evasion = { path = "../../components/reactive-evasion" }
-
-[profile.release]
-opt-level = 3
-lto = true

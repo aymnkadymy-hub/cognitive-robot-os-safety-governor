@@ -1,6 +1,7 @@
 # Cognitive Robot OS — Verification-Preserving Adaptive Safety Governor
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20645786.svg)](https://doi.org/10.5281/zenodo.20645786)
+[![CI](https://github.com/aymnkadymy-hub/cognitive-robot-os-safety-governor/actions/workflows/ci.yml/badge.svg)](https://github.com/aymnkadymy-hub/cognitive-robot-os-safety-governor/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/Code-MIT-green.svg)](LICENSE)
 
 > 📄 **Preprint (full paper, open access):** https://doi.org/10.5281/zenodo.20645786
@@ -69,14 +70,16 @@ state): anyone who runs the code gets the **same numbers**. Reference outputs ar
 
 ## 3. Repository layout
 
-This repository keeps the **buildable Cargo crate tree** (so it compiles and the results
-reproduce). The conceptual grouping requested for a safety-governance artifact
+The repository is a single **Cargo workspace** (root [`Cargo.toml`](Cargo.toml), one lockfile,
+shared `target/`); only the three seL4 protection-domain crates are excluded because they build
+against a custom `aarch64-sel4-microkit` target. The conceptual grouping requested for a safety-governance artifact
 (*governor / memory / verification / experiments / results / scripts / docs*) is provided by
 [`docs/REPOSITORY_MAP.md`](docs/REPOSITORY_MAP.md), which maps each concept to concrete paths.
 
 ```
 Repository/
 ├── README.md                  ← you are here
+├── Cargo.toml                 ← workspace root (all host crates; seL4 PDs excluded)
 ├── LICENSE, CITATION.cff
 ├── components/                ← Rust no_std crates (the system)
 │   ├── safety-memory/         ← adaptive tighten-only envelope  (Claim A — core invention)
@@ -131,20 +134,25 @@ diff <(grep -E '^\[eval\]|^=== environment' my-results.txt) \
      <(grep -E '^\[eval\]|^=== environment' results/reference/B-sil-eval.txt)
 ```
 
-Per-experiment runs (each compiles in seconds and prints its own table):
+Per-experiment runs from the workspace root (each compiles in seconds and prints its own table;
+`cd <crate> && cargo …` works identically):
 
 ```sh
-(cd sim/sil-eval        && cargo run --release)   # multi-environment evaluation + CI
-(cd sim/sil-experiments && cargo run --release)   # 12-test reviewer battery
-(cd sim/sil-ablation    && cargo run --release)   # Pareto / mechanistic ablation
-(cd sim/sil-stress      && cargo run --release)   # stress / break battery
-(cd sim/bench-guard     && cargo run --release)   # guard-decision timing
+cargo run --release -p sil-eval          # multi-environment evaluation + CI
+cargo run --release -p sil-experiments   # 12-test reviewer battery
+cargo run --release -p sil-ablation      # Pareto / mechanistic ablation
+cargo run --release -p sil-stress        # stress / break battery
+cargo run --release -p bench-guard       # guard-decision timing
 
 # The theorems, machine-checked on thousands of inputs:
-(cd components/safety-memory  && cargo test --release)   # 14 tests
-(cd components/clearance-guard && cargo test --release)  # 13 tests
-(cd components/safety-model    && cargo test --release)  # 7 tests
+cargo test --release -p safety-memory    # 14 tests
+cargo test --release -p clearance-guard  # 13 tests
+cargo test --release -p safety-model     # 7 tests
 ```
+
+Continuous integration ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) re-runs the
+property tests and re-derives experiments B/C/D/F on every push, failing on any deviation from
+[`results/reference/`](results/reference/) — the reproducibility claim is machine-enforced.
 
 See [`docs/REPRODUCE.md`](docs/REPRODUCE.md) for the full mapping of *paper table → command →
 reference file*, and the (optional) seL4-on-QEMU reflex-arc demo.

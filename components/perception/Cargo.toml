@@ -8,7 +8,3 @@ license = "MIT"
 [lib]
 name = "perception_encoder"
 path = "src/lib.rs"
-
-[profile.release]
-opt-level = 3
-lto = true
